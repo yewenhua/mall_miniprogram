@@ -1,0 +1,160 @@
+<scroll-view class='o-page' scroll-y="true">
+     <view class='o-detail'>
+        <view class='inner'>
+            <view class='o-title'>
+                <view class='img'>
+                <image bindtap='preview' data-cate="main" src="/images/cha.jpg"></image>
+                </view>
+                <view class='title'>武夷山大红袍</view>
+                <view class='desc'>订单已完成，售后电话：<text bindtap='call'>4001030377</text></view>
+            </view>
+            <view class='o-progress'>
+                <view class='view-item'>
+                    <view class='p-item'>
+                        <image src="{{'/images/CREATED_ACTIVE.png'}}"></image>
+                        <view class="p-text active">待付款</view>
+                    </view>
+                    <view class='p-line'></view>
+                </view>
+                <view class='view-item'>
+                    <view class='p-item'>
+                        <image src="{{'/images/ACCEPTED_ACTIVE.png'}}"></image>
+                        <view class="p-text active">待发货</view>
+                    </view>
+                    <view class='p-line'></view>
+                </view>
+                <view class='view-item'>
+                    <view class='p-item'>
+                        <image src="{{'/images/FIXED_ACTIVE.png'}}"></image>
+                        <view class="p-text active">待收货</view>
+                    </view>
+                    <view class='p-line'></view>
+                </view>
+                <view class='view-item'>
+                    <view class='p-item'>
+                        <image src="{{'/images/FINISHED_ACTIVE.png'}}"></image>
+                        <view class="p-text active">已完成</view>
+                    </view>
+                </view>
+                
+                <view class='sub-title'>订单信息</view>
+            </view>
+
+            <view class='o-item mt-color'>
+                <view class='left'>颜色</view>
+                <view class='right'>红色</view>
+            </view>
+            <view class='o-item'>
+                <view class='left'>序列号</view>
+                <view class='right series_no'>123456</view>
+            </view>
+            <view class='o-item'>
+                <view class='left'>预约手机</view>
+                <view class='right'>17091952061</view>
+            </view>
+            <view class='o-item'>
+                <view class='left'>预约时间</view>
+                <view class='right'>2019-03-25 10:12:23</view>
+            </view>
+            <view class='o-item address'>
+                <view class='left'>收货地址</view>
+                <view class='right'>浙江省温州市瓯海区振革路38号</view>
+            </view>
+
+
+            <view class='o-btn'>
+                <button class="o-submit" bindtap="cancel" hover-class="sb-hover">取消订单</button>
+            </view>
+
+            <view class='o-btn' wx:if="1==2">
+                <button class="o-submit" bindtap="comment" data-type="addcart" hover-class="sb-hover">订单评价</button>
+                <view class="refund" bindtap="refund" wx:if="{{detail.canBeRejected}}">我要退货</view>
+            </view>
+
+            <view class="comment-detail">
+                <view class='c-title'>服务评价</view>
+                <view class='o-item comment mt'>
+                    <view class='left'>产品评价</view>
+                    <view class='right'>
+                        <block wx:for="{{stars}}" class="bb" wx:key="{{index}}">
+                            <image class="star-image" style="left: {{item*48 + 20}}rpx" src="{{selectedSrc}}">
+                            </image>
+                        </block>
+                    </view>
+                </view>
+                <view class='o-item comment'>
+                    <view class='left'>安装响应</view>
+                    <view class='right'>
+                        <block wx:for="{{stars}}" class="bb" wx:key="{{index}}">
+                            <image class="star-image" style="left: {{item*48 + 20}}rpx" src="{{selectedSrc}}">
+                            </image>
+                        </block>
+                    </view>
+                </view>
+                <view class='o-item comment'>
+                    <view class='left'>服务态度</view>
+                    <view class='right'>
+                        <block wx:for="{{stars}}" class="bb" wx:key="{{index}}">
+                            <image class="star-image" style="left: {{item*48 + 20}}rpx" src="{{selectedSrc}}">
+                            </image>
+                        </block>
+                    </view>
+                </view>
+                <view class="o-item comment c-img-outter">
+                    <view class='left'>实拍图片</view>
+                    <view class='right'>
+                        <image class="c-img" bindtap='preview' data-cate="comment" data-idx="{{index}}" wx:for="{{4}}" src="/images/cha.jpg" wx:key="{{index}}"></image>
+                    </view>
+                </view>
+                <view class='o-item comment cdetail'>
+                    <view class='left'>评价详情</view>
+                    <view class='right'>很好</view>
+                </view>
+                <view class='o-btn' wx:if="1==2">
+                    <button class="o-submit rt" bindtap="refund" hover-class="sb-hover">我要退货</button>
+                </view>
+            </view>
+
+
+            <view wx:if="{{detail && (detail.orderStatus == 'REJECTING' || (detail.orderStatus == 'CLOSED' && detail.rejectReason))}}" class="comment-detail">
+                <view class='c-title'>退货进度</view>
+                <view class='o-item comment cdetail'>
+                    <view class='left'>退货状态</view>
+                    <view class='right'>{{detail.rejectStatusName}}</view>
+                </view>
+                <view class='o-item comment cdetail' style='margin-top:12rpx;'>
+                    <view class='left'>申请时间</view>
+                    <view class='right'>{{detail.rejectApplyDate}}</view>
+                </view>
+                <view class='o-item comment cdetail' wx:if="{{detail.rejectFinishDate}}" style='margin-top:12rpx;'>
+                    <view class='left'>处理时间</view>
+                    <view class='right'>{{detail.rejectFinishDate}}</view>
+                </view>
+                <view class='o-item comment cdetail' style='margin-top:12rpx;'>
+                    <view class='left'>退货说明</view>
+                    <view class='right'>{{detail.rejectReason}}</view>
+                </view>
+                <view class="o-item comment c-img-outter">
+                    <view class='left'>退货图片</view>
+                    <view class='right'>
+                        <image class="c-img" bindtap='preview' data-cate="refund" data-idx="{{index}}" wx:for="{{4}}" src="/images/cha.jpg" wx:key="{{index}}"></image>
+                    </view>
+                </view>
+            </view>
+
+
+
+        </view>
+     </view>
+</scroll-view>
+
+
+<view class="mask" wx:if="{{showModalStatus}}" data-status="close" catchtap="switchPop"></view>
+<view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}"> 
+    <image lazy-load="true" src="/images/close@2x.png" mode="widthFix" class="close" data-status="close" catchtap="switchPop"></image>
+    <view class='cancel-title'>请输入您取消订单的理由</view>
+    <textarea class='c-text' value="{{content}}" bindinput="contentinput" placeholder="请输入您取消订单的理由" />
+    <view class='o-btn'>
+        <button class="o-submit" data-status="close" catchtap="cancelSubmit" hover-class="sb-hover" style="margin-top: 40rpx;">提交</button>
+    </view>
+</view>

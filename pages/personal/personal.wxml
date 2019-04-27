@@ -1,0 +1,70 @@
+<view class="page">
+    <view class="userinfo">
+        <open-data type="userAvatarUrl" class="userinfo-avatar fl_l"></open-data>
+        <view class="fl_l"><open-data type="userNickName"></open-data></view>
+    </view>
+
+    <view class="weui-cells weui-cells_after-title">
+        <navigator open-type="switchTab" url="../order/order" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell__bd">全部订单</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access">看看详情</view>
+        </navigator>
+        <view class="weui-cell weui-cell_access orders" hover-class="weui-cell_active">
+            <navigator open-type="switchTab" url="../orderlist/orderlist" class="order-item">
+                <image src="../../images/card.png"></image>
+                <view class='text'>待付款</view>
+            </navigator>
+            <navigator open-type="switchTab" url="../orderlist/orderlist" class="order-item">
+                <image src="../../images/car.png"></image>
+                <view class='text'>待收货</view>
+            </navigator>
+            <navigator open-type="switchTab" url="../orderlist/orderlist" class="order-item">
+                <image src="../../images/favorate.png"></image>
+                <view class='text'>待评价</view>
+            </navigator>
+            <navigator open-type="switchTab" url="../orderlist/orderlist" class="order-item">
+                <image src="../../images/refused.png"></image>
+                <view class='text'>退款</view>
+            </navigator>
+        </view>
+        <navigator url="../detail/detail" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell__hd">
+                <image src="../../images/quan.png"></image>
+            </view>
+            <view class="weui-cell__bd">优惠券</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+        <navigator url="../detail/detail" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell__hd">
+                <image src="../../images/location.png"></image>
+            </view>
+            <view class="weui-cell__bd">收货地址</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+        <navigator url="../mypin/mypin" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell__hd">
+                <image src="../../images/favorate.png"></image>
+            </view>
+            <view class="weui-cell__bd">拼团</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+        <navigator url="../detail/detail" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell__hd">
+                <image src="../../images/emoji.png"></image>
+            </view>
+            <view class="weui-cell__bd">关于我们</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+        <view class="weui-cell weui-cell_access kf" hover-class="weui-cell_active">
+            <view class="weui-cell__hd">
+                <image src="../../images/online.png"></image>
+            </view>
+            <view class="weui-cell__bd">联系客服</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+            <contact-button type="default-dark" size="20" session-from="weapp"></contact-button>
+        </view>
+    </view>
+
+</view>
+
+

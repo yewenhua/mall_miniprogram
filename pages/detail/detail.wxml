@@ -1,0 +1,120 @@
+<scroll-view class="container" scroll-y>
+    <view class='gg'>
+      <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="{{circular}}">
+          <block wx:for="{{imgUrls}}" wx:key="{{index}}">
+              <swiper-item>
+                  <image src="{{item}}" mode="scaleToFill" lazy-load="true" class="slide-image"/>
+              </swiper-item>
+          </block>
+      </swiper>
+      <view wx:if="{{pt}}" class='pt-alert'>
+          <view class='left'>火热拼团</view>
+          <view class='right'>
+              <view wx:if="{{timeup && !timeup.is_over}}">仅剩 {{timeup.day_html}}天 {{timeup.hour_html}}：{{timeup.minute_html}}：{{timeup.second_html}}</view>
+              <view wx:if="{{timeup && timeup.is_over}}">已结束</view>
+          </view>
+      </view>
+    </view>
+
+    <view class="proMsg">
+        <view class='proName'>武夷山大红袍，买三赠一</view>
+        <view class='price'>¥ 99</view>
+        <view class="salse">
+          <view class="left">库存：99</view>
+          <view class="middle">销量：2</view>
+          <view class="right">运费：免运费</view>
+        </view>
+    </view>
+
+    <view class="goods-info">
+        <view class="ginfo">
+            <view class='item'>
+                <text>保障：</text>官方正品保证
+            </view>
+            <view class='item'>
+                <text>店铺：</text>小王小卖部
+            </view>
+            <view class="item select">
+                <text>颜色：</text>红色
+            </view>
+        </view>
+    </view>
+
+    <view class="details">
+        <view class='title'>
+            <view class="about">详细介绍</view>
+        </view>
+        
+        <view class='desc'>
+            <block wx:for="{{detailpic}}" wx:key="{{index}}">
+                <image lazy-load="true" src="{{item && item.url ? item.url : '/static/images/default@2x.png'}}" mode="widthFix" lazy-load="true" class="detail-image"/>
+            </block>
+        </view>
+    </view>
+    
+    <view class="footfixed tc">
+        <view class="fl_l w20 font_12 hui03 df">
+            <view class="df_1 l_h15 pt5">
+                <contact-button type="default-light" session-from="productId_{{itemData.id}}" class="ke">
+                  <contact-button class="pos"></contact-button>
+                  <image class="icon_kf" src="/images/kefu.png" style="margin-right:20px;"></image>
+                  <view class="dbtext" style="line;margin-top: 6rpx">客服</view>
+                </contact-button >
+            </view>
+        </view>
+        <view class="fl_l w80" wx:if="{{!pt}}">
+            <view class="w50 fl_l bg_cheng white text-center" bindtap="popup" data-type="addcart">加入购物车</view>
+            <view bindtap="preview" class="bg_red white w50 fl_l text-center" data-status="1">立刻购买</view>
+        </view>
+        <view class="fl_l w80" wx:if="{{pt}}">
+            <view class="w50 fl_l bg_cheng white text-center dbline" bindtap="single">
+               <view>¥ 129</view>
+               <view>单买</view>
+            </view>
+            <view bindtap="preview" class="bg_red white w50 fl_l text-center dbline" data-status="1">
+               <view>¥ 99</view>
+               <view>开团</view>
+            </view>
+        </view>
+    </view>
+
+    <view class="open-device" style="bottom: {{popup ? '0px' : '-1000rpx'}};">
+        <view class="info">
+             <view class="img">
+                 <image src='../../images/cha.jpg'></image>
+             </view>
+             <view class="desc">
+                 <view class="title">武夷山大红袍，茶中极品</view>
+                 <view class="rest">库存：50</view>
+                 <view class="price">价格：<text>¥ 99</text> 元</view>
+             </view>
+        </view>
+        <view class="size">
+             <view class="title">颜色</view>
+             <view class="detail">
+                 <view class="item active">红色</view>
+                 <view class="item">黄色</view>
+             </view>
+        </view>
+        <view class="size">
+             <view class="title">尺寸</view>
+             <view class="detail">
+                 <view class="item active">35</view>
+                 <view class="item">36</view>
+                 <view class="item">37</view>
+             </view>
+        </view>
+        <view class="count">
+             <view class="title">数量</view>
+             <view class="num">
+                <view class="disnum" data-alpha-beta="0" bindtap="changeNum">-</view>
+                <view class="nownum" data-index="{{index}}">{{count}}</view>
+                <view class="addnum" data-alpha-beta="1" bindtap="changeNum">+</view>
+            </view>
+        </view>
+        <view class="operate" bindtap="subOrder" hover-class="sb-hover">
+            <view class="btn">确定</view>
+        </view>
+    </view>
+    <view class="mask" catchtap="popup" wx:if="{{popup}}"></view>
+</scroll-view>

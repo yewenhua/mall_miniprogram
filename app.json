@@ -1,0 +1,64 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/orderlist/orderlist",
+    "pages/category/category",
+    "pages/cart/cart",
+    "pages/detail/detail",
+    "pages/preview/preview",
+    "pages/personal/personal",
+    "pages/pay/pay",
+    "pages/list/list",
+    "pages/orderdetail/orderdetail",
+    "pages/star/star",
+    "pages/refund/refund",
+    "pages/pintuan/pintuan",
+    "pages/mypin/mypin"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#22A3FE",
+    "navigationBarTitleText": "V家速购",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "backgroundColor": "#f9f9f9",
+    "position": "bottom",
+    "color": "#878787",
+    "selectedColor": "#1AAD16",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "/images/home_light.png",
+        "selectedIconPath": "/images/home_fill.png"
+      },
+      {
+        "pagePath": "pages/category/category",
+        "text": "分类",
+        "iconPath": "/images/search_list_light.png",
+        "selectedIconPath": "/images/search_list.png"
+      },
+      {
+        "pagePath": "pages/pintuan/pintuan",
+        "text": "拼团",
+        "iconPath": "/images/apps.png",
+        "selectedIconPath": "/images/apps_fill.png"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "text": "购物车",
+        "iconPath": "/images/cart_light.png",
+        "selectedIconPath": "/images/cart.png"
+      },
+      {
+        "pagePath": "pages/personal/personal",
+        "text": "我的",
+        "iconPath": "/images/people_list_light.png",
+        "selectedIconPath": "/images/people_list.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,135 @@
+page{
+    background: #f8f8f8;
+}
+.page__hd {
+    padding:30rpx 30rpx 20rpx;
+    font-size:30rpx;
+}
+.page__title {
+    text-align:left;
+    font-size:40rpx;
+    font-weight:400;
+}
+.page__desc {
+    margin-top:50rpx;
+    color:#888888;
+    text-align:left;
+    font-size:28rpx;
+}
+.weui-form-preview {
+    margin-bottom:90rpx;
+}
+.weui-form-preview {
+    position:relative;
+    background-color:#FFFFFF;
+}
+.weui-form-preview::after {
+    content:" ";
+    position:absolute;
+    left:0;
+    bottom:0;
+    right:0;
+    height:2rpx;
+    transform: scaleY(0.5);
+    background: #D9D9D9;
+}
+.weui-form-preview::before {
+    content:" ";
+    position:absolute;
+    left:0;
+    top:0;
+    right:0;
+    height:2rpx;
+    transform: scaleY(0.5);
+    background: #D9D9D9;
+}
+.weui-form-preview__hd {
+    position:relative;
+    padding:20rpx 30rpx;
+    text-align:right;
+    line-height:90rpx;
+}
+.weui-form-preview__hd::after {
+    content:"";
+    position:absolute;
+    bottom:0;
+    right:0;
+    height:2rpx;
+    transform: scaleY(0.5);
+    background: #D9D9D9;
+    left:30rpx;
+}
+.weui-form-preview__item {
+    overflow:hidden;
+    padding: 32rpx;
+}
+.weui-form-preview__label {
+    float:left;
+    min-width:100rpx;
+    color:#999999;
+    text-align:justify;
+    text-align-last:justify;
+    font-size:30rpx;
+}
+.weui-form-preview__value_in-hd {
+    font-size:52rpx;
+    color: #f50;
+}
+.weui-form-preview__value {
+    display:block;
+    overflow:hidden;
+    word-break:normal;
+    font-size:30rpx;
+    text-align: right;
+    word-wrap:break-word;
+}
+.weui-form-preview__value {
+    font-size:28rpx;
+}
+.weui-form-preview__ft {
+    position:relative;
+    line-height:90rpx;
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:flex;
+}
+.weui-form-preview__ft::after {
+    content:" ";
+    position:absolute;
+    left:0;
+    top:0;
+    right:0;
+    height:2rpx;
+    transform: scaleY(0.5);
+    background: #D5D5D6;
+}
+.weui-form-preview__btn_primary {
+    color:#0BB20C;
+}
+.weui-form-preview__btn {
+    position:relative;
+    display:block;
+    -webkit-box-flex:1;
+    -webkit-flex:1;
+    flex:1;
+    color:#3CC51F;
+    text-align:center;
+    font-size:36rpx;
+}
+.cancel{
+  color: #E6A23C;
+}
+.weui-form-preview__btn:first-child::after {
+    display:none;
+}
+.weui-form-preview__btn::after {
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:2rpx;
+    bottom:0;
+    height:100%;
+    transform: scaleX(0.5);
+    background: #D5D5D6;
+}
