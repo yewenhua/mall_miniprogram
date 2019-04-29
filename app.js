@@ -2,9 +2,9 @@
 App({
   globalData: {
     third_session: '',
-    api_url: 'https://shop.iccssi.com',
-    //api_url: 'http://192.168.30.40:9876',
-    wxurl: 'https://shop.iccssi.com',
+    //api_url: 'https://shop.iccssi.com',
+    api_url: 'http://localhost:3000',
+    base_url: 'http://www.mall.com',
     code: wx.getStorageSync('code') ? wx.getStorageSync('code') : '',
     children_num: wx.getStorageSync('children_num') ? wx.getStorageSync('children_num') : 0,
     orderGood: null
@@ -19,13 +19,13 @@ App({
     var that = this;
     wx.login({
       success: function (res) {
-        var url = that.globalData.api_url + '/app/login/' + res.code;
+        var url = that.globalData.api_url + '/wechat/minilogin';
         var data = { code: res.code };
-        var action = { header: 'application/x-www-form-urlencoded', method: 'post', url: url };
+        var action = { header: 'application/json', method: 'post', url: url };
         that.ajax(action, data, function (rtn) {
           if (rtn.code == 0) {
             var obj = {
-              value: rtn.data,
+              value: rtn.data.third_session,
               expire_time: (new Date()).getTime() + 2 * 3500 * 1000  //有效期2小时
             };
 

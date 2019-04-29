@@ -1,3 +1,4 @@
+var app = getApp()
 Page({
     data: {
         contentid: 0,
@@ -190,7 +191,9 @@ Page({
             }
         ],
         inputShowed: false,
-        inputVal: ""
+        inputVal: "",
+        loading: false,
+        datalist: [],
     },
     tabClassfiy: function (e) {
         var that = this;
@@ -264,5 +267,41 @@ Page({
         wx.navigateTo({
             url: '../detail/detail'
         });
+    },
+    lists() {
+      var that = this;
+      var url = app.globalData.api_url + '/mall/category';
+
+      var data = {};
+      var action = { header: 'application/json', method: 'post', url: url };
+      if (!that.data.loading) {
+        app.showLoading('加载中…');
+        that.setData({
+          loading: true
+        });
+
+        app.api(action, data, function (rtn) {
+          app.hideLoading();
+
+          if (rtn.code == 0) {
+            for (let i = 0; i < rtn.data.length; i++) {
+              for (let j = 0; j < rtn.data[i].goodslist.length; j++) {
+                rtn.data[i].goodslist[j].img = app.globalData.base_url + rtn.data[i].goodslist[j].face;
+              }
+              rtn.data[i].face = app.globalData.base_url + rtn.data[i].img_url;
+            }
+            that.setData({
+              datalist: rtn.data,
+              loading: false
+            });
+          }
+          else {
+            that.setData({
+              loading: false,
+            });
+            app.showToast(rtn.msg, '/images/cry_white.png', 'img');
+          }
+        });
+      }
     }
 })

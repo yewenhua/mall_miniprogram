@@ -43,66 +43,14 @@
         </view>
     </view>
 
-    <view class='list-item'>
+    <view class='list-item' wx:for="{{datalist}}" wx:for-item="list" wx:for-key="index" wx:key="{{index}}" wx:if="{{list.goodslist.length >= 5}}">
         <view class='face' bindtap='detail'>
-            <image mode="widthFix" src="../../images/face1.jpg"></image>
+            <image mode="widthFix" src="{{list.face}}"></image>
         </view>
         <scroll-view scroll-x class='item-detail'>
-            <view class='img-item' bindtap='detail'>
-                <image src="../../images/xie.jpg"></image>
-                <view class='title'>厉害了，我的国</view>
-                <view class='desc'>五星红旗迎风飘扬</view>
-            </view>
-            <view class='img-item' bindtap='detail'>
-                <image src="../../images/cha.jpg"></image>
-                <view class='title'>厉害了，我的国</view>
-                <view class='desc'>五星红旗迎风飘扬</view>
-            </view>
-            <view class='img-item' bindtap='detail'>
-                <image src="../../images/tixudao.jpg"></image>
-                <view class='title'>厉害了，我的国</view>
-                <view class='desc'>五星红旗迎风飘扬</view>
-            </view>
-            <view class='img-item' bindtap='detail'>
-                <image src="../../images/xian.jpg"></image>
-                <view class='title'>厉害了，我的国</view>
-                <view class='desc'>五星红旗迎风飘扬</view>
-            </view>
-            <view class='img-item' bindtap='detail'>
-                <image src="../../images/hua.jpg"></image>
-                <view class='title'>厉害了，我的国</view>
-                <view class='desc'>五星红旗迎风飘扬</view>
-            </view>
-        </scroll-view>
-    </view>
-    <view class='list-item'>
-        <view class='face' bindtap='detail'>
-            <image mode="widthFix" src="../../images/face2.jpg"></image>
-        </view>
-        <scroll-view scroll-x class='item-detail'>
-            <view class='img-item' bindtap='detail'>
-                <image src="../../images/xie.jpg"></image>
-                <view class='title'>厉害了，我的国</view>
-                <view class='desc'>五星红旗迎风飘扬</view>
-            </view>
-            <view class='img-item' bindtap='detail'>
-                <image src="../../images/cha.jpg"></image>
-                <view class='title'>厉害了，我的国</view>
-                <view class='desc'>五星红旗迎风飘扬</view>
-            </view>
-            <view class='img-item' bindtap='detail'>
-                <image src="../../images/tixudao.jpg"></image>
-                <view class='title'>厉害了，我的国</view>
-                <view class='desc'>五星红旗迎风飘扬</view>
-            </view>
-            <view class='img-item' bindtap='detail'>
-                <image src="../../images/xian.jpg"></image>
-                <view class='title'>厉害了，我的国</view>
-                <view class='desc'>五星红旗迎风飘扬</view>
-            </view>
-            <view class='img-item' bindtap='detail'>
-                <image src="../../images/hua.jpg"></image>
-                <view class='title'>厉害了，我的国</view>
+            <view class='img-item' bindtap='detail'  wx:for="{{list.goodslist}}" wx:for-item="item" wx:for-key="key" wx:key="{{key}}">
+                <image src="{{item.img}}"></image>
+                <view class='title'>{{item.name}}</view>
                 <view class='desc'>五星红旗迎风飘扬</view>
             </view>
         </scroll-view>
