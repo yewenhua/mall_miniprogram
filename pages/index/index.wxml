@@ -44,11 +44,11 @@
     </view>
 
     <view class='list-item' wx:for="{{datalist}}" wx:for-item="list" wx:for-key="index" wx:key="{{index}}" wx:if="{{list.goodslist.length >= 5}}">
-        <view class='face' bindtap='detail'>
+        <view class='face' bindtap='category'>
             <image mode="widthFix" src="{{list.face}}"></image>
         </view>
         <scroll-view scroll-x class='item-detail'>
-            <view class='img-item' bindtap='detail'  wx:for="{{list.goodslist}}" wx:for-item="item" wx:for-key="key" wx:key="{{key}}">
+            <view class='img-item' bindtap='detail' data-id="{{item.id}}"  wx:for="{{list.goodslist}}" wx:for-item="item" wx:for-key="key" wx:key="{{key}}">
                 <image src="{{item.img}}"></image>
                 <view class='title'>{{item.name}}</view>
                 <view class='desc'>五星红旗迎风飘扬</view>

@@ -58,9 +58,16 @@ Page({
       }
     },
 
-    detail(){
+    detail(e){
+        let id = e.currentTarget.dataset.id;
         wx.navigateTo({
-            url: '../detail/detail'
+          url: '../detail/detail?id=' + id
         });
+    },
+
+    category() {
+      wx.switchTab({
+        url: '../category/category'
+      });
     }
 });
