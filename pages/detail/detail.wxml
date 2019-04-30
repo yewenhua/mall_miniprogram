@@ -17,11 +17,11 @@
     </view>
 
     <view class="proMsg" wx:if="{{data}}">
-        <view class='proName'>武夷山大红袍，买三赠一</view>
-        <view class='price'>¥ 99</view>
+        <view class='proName'>{{data && data.name ? data.name : ''}}</view>
+        <view class='price'>¥ {{data && data.sale_price ? data.sale_price : 0}}</view>
         <view class="salse">
-          <view class="left">库存：99</view>
-          <view class="middle">销量：2</view>
+          <view class="left">库存：{{data && data.remain_num ? data.remain_num : 0}}</view>
+          <view class="middle">销量：{{data && data.sale_num ? data.sale_num : 0}}</view>
           <view class="right">运费：免运费</view>
         </view>
     </view>
