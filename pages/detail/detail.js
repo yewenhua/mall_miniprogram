@@ -8,11 +8,9 @@ Page({
   data: {
       data: null,
       id: '',
-      imgUrls: [
-        'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
-        'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
-        'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
-      ],
+      num: 0,
+      firstProperties: { title: '', list: [] },
+      secondProperties: { title: '', list: [] },
       indicatorDots: true,
       autoplay: true,
       circular: true,
@@ -22,18 +20,7 @@ Page({
       count: 1,
       pt: false,
       timeup: '',
-      leftTime: 2 * 24 * 60 * 60,
-      detailpic: [
-        {
-          url: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'
-        },
-        {
-          url: 'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640'
-        },
-        {
-          url: 'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
-        }
-      ]
+      leftTime: 2 * 24 * 60 * 60
   },
 
   /**
@@ -47,6 +34,8 @@ Page({
 
         this.detail();
       }
+
+      //pintuan
       if(options && options.pt == 1){
           this.setData({
              pt: true
@@ -140,6 +129,120 @@ Page({
     }.bind(this), 1000);
   },
 
+  in_array(arr, val){
+    if (arr.length == 0){
+      return false;
+    }
+    else{
+      let flag = false;
+      for (let i = 0; i < arr.length; i++){
+        if(arr[i].id == val){
+          flag = true;
+          break;
+        }
+      }
+
+      return flag;
+    }
+  },
+
+  updateDisplay() {
+    let firstAttrId = '';
+    let secondAttrId = '';
+    for (let i=0; i < this.data.firstProperties.list.length; i++) {
+      if (this.data.firstProperties.list[i].selected) {
+        firstAttrId = this.data.firstProperties.list[i].id;
+      }
+    }
+
+    if (this.data.secondProperties.title) {
+      for (let i=0; i < this.data.secondProperties.list.length; i++) {
+        if (this.data.secondProperties.list[i].selected) {
+          secondAttrId = this.data.secondProperties.list[i].id;
+        }
+      }
+    }
+
+    let num = 0;
+    if (firstAttrId && secondAttrId) {
+      //选择了属性一和属性二
+      for (let i=0; i < this.data.data.skus.length; i++) {
+        if (this.data.data.skus[i].first_properties_id == firstAttrId && this.data.data.skus[i].second_properties_id == secondAttrId) {
+          num = this.data.data.skus[i].num;
+        }
+      }
+    }
+    else if (firstAttrId && !secondAttrId) {
+      //只选择了属性一
+      for (let i=0; i < this.data.data.skus.length; i++) {
+        if (this.data.data.skus[i].first_properties_id == firstAttrId) {
+          num = num + this.data.data.skus[i].num;
+        }
+      }
+    }
+    else if (!firstAttrId && secondAttrId) {
+      //只选择了属性二
+      for (let i=0; i < this.data.data.skus.length; i++) {
+        if (this.data.data.skus[i].second_properties_id == secondAttrId) {
+          num = num + this.data.data.skus[i].num;
+        }
+      }
+    }
+    else {
+      //都没选
+      for (let i=0; i < this.data.data.skus.length; i++) {
+        num = num + this.data.data.skus[i].num;
+      }
+    }
+
+    this.setData({
+      num: num
+    });
+  },
+
+  chgsku(e) {
+    let skus = null;
+    let type = e.target.dataset.type;
+    let index = e.target.dataset.index;
+    if (type == 'first'){
+      skus = this.data.firstProperties.list;
+    }
+    else{
+      skus = this.data.secondProperties.list;
+    }
+
+    for (var i = 0; i < skus.length; i++) {
+      if (i == index) {
+        if (skus[i].selected) {
+          skus[i].selected = false;
+        }
+        else {
+          skus[i].selected = true;
+        }
+      }
+      else {
+        skus[i].selected = false;
+      }
+    }
+
+    if (type == 'first') {
+      let newData = this.data.firstProperties;
+      newData.list = skus;
+      this.setData({
+        firstProperties: newData
+      });
+    }
+    else{
+      let newData = this.data.secondProperties;
+      newData.list = skus;
+      this.setData({
+        secondProperties: newData
+      });
+    }
+
+    this.updateDisplay();
+  },
+
   detail() {
     var that = this;
     var url = app.globalData.api_url + '/mall/goodsdetail';
@@ -158,16 +261,60 @@ Page({
         app.hideLoading();
 
         if (rtn.code == 0) {
-          for (let i = 0; i < rtn.data.length; i++) {
-            for (let j = 0; j < rtn.data[i].goodslist.length; j++) {
-              rtn.data[i].goodslist[j].img = app.globalData.base_url + rtn.data[i].goodslist[j].face;
+          let mainpic = [];
+          let detailpic = [];
+          for (let i = 0; i < rtn.data.images.length; i++) {
+            if (rtn.data.images[i].type == 'main'){
+              mainpic.push(
+                app.globalData.base_url + rtn.data.images[i].url
+              );
             }
-            rtn.data[i].face = app.globalData.base_url + rtn.data[i].img_url;
+            else{
+              detailpic.push(
+                app.globalData.base_url + rtn.data.images[i].url
+              );
+            }
+            
+            rtn.data.mainpic = mainpic;
+            rtn.data.detailpic = detailpic;
           }
+
+          let firstProperties = {title: '', list: []};
+          let secondProperties = { title: '', list: [] };
+          for (let i = 0; i < rtn.data.skus.length; i++) {
+            //第一属性
+            firstProperties.title = rtn.data.skus[i].firstProperty.title;
+            if (!that.in_array(firstProperties.list, rtn.data.skus[i].first_properties_id)){
+              firstProperties.list.push({
+                id: rtn.data.skus[i].first_properties_id,
+                name: rtn.data.skus[i].firstProperty.name,
+                selected: false
+              });
+            }
+
+            //有第二属性
+            if (rtn.data.skus[i].second_properties_id) {
+              secondProperties.title = rtn.data.skus[i].secondProperty.title;
+              if (!that.in_array(secondProperties.list, rtn.data.skus[i].second_properties_id)){
+                secondProperties.list.push({
+                  id: rtn.data.skus[i].second_properties_id,
+                  name: rtn.data.skus[i].secondProperty.name,
+                  selected: false
+                });
+              }
+            }
+          }
+
           that.setData({
             data: rtn.data,
+            num: rtn.data.remain_num,
+            firstProperties: firstProperties,
+            secondProperties: secondProperties,
             loading: false
           });
+
+          console.log(firstProperties);
+          console.log(secondProperties);
         }
         else {
           that.setData({

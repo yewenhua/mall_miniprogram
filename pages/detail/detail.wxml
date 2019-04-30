@@ -1,7 +1,7 @@
 <scroll-view class="container" scroll-y>
-    <view class='gg'>
+    <view class='gg' wx:if="{{data}}">
       <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="{{circular}}">
-          <block wx:for="{{imgUrls}}" wx:key="{{index}}">
+          <block wx:for="{{data.mainpic}}" wx:key="{{index}}">
               <swiper-item>
                   <image src="{{item}}" mode="scaleToFill" lazy-load="true" class="slide-image"/>
               </swiper-item>
@@ -16,7 +16,7 @@
       </view>
     </view>
 
-    <view class="proMsg">
+    <view class="proMsg" wx:if="{{data}}">
         <view class='proName'>武夷山大红袍，买三赠一</view>
         <view class='price'>¥ 99</view>
         <view class="salse">
@@ -26,7 +26,7 @@
         </view>
     </view>
 
-    <view class="goods-info">
+    <view class="goods-info" wx:if="{{data}}">
         <view class="ginfo">
             <view class='item'>
                 <text>保障：</text>官方正品保证
@@ -34,7 +34,7 @@
             <view class='item'>
                 <text>店铺：</text>小王小卖部
             </view>
-            <view class="item select">
+            <view class="item select" bindtap="popup" data-type="addcart">
                 <text>颜色：</text>红色
             </view>
         </view>
@@ -45,9 +45,9 @@
             <view class="about">详细介绍</view>
         </view>
         
-        <view class='desc'>
-            <block wx:for="{{detailpic}}" wx:key="{{index}}">
-                <image lazy-load="true" src="{{item && item.url ? item.url : '/static/images/default@2x.png'}}" mode="widthFix" lazy-load="true" class="detail-image"/>
+        <view class='desc' wx:if="{{data}}">
+            <block wx:for="{{data.detailpic}}" wx:key="{{index}}">
+                <image lazy-load="true" src="{{item && item ? item : '/images/default@2x.png'}}" mode="widthFix" lazy-load="true" class="detail-image"/>
             </block>
         </view>
     </view>
@@ -85,23 +85,20 @@
              </view>
              <view class="desc">
                  <view class="title">武夷山大红袍，茶中极品</view>
-                 <view class="rest">库存：50</view>
+                 <view class="rest">库存：{{num}}</view>
                  <view class="price">价格：<text>¥ 99</text> 元</view>
              </view>
         </view>
-        <view class="size">
-             <view class="title">颜色</view>
+        <view class="size" wx:if="{{firstProperties.title}}">
+             <view class="title">{{firstProperties.title}}</view>
              <view class="detail">
-                 <view class="item active">红色</view>
-                 <view class="item">黄色</view>
+                 <view class="item {{item.selected ? 'active' : ''}}" wx:for="{{firstProperties.list}}" data-index="{{index}}" data-type="first" wx:key="{{index}}" bindtap='chgsku'>{{item.name}}</view>
              </view>
         </view>
-        <view class="size">
-             <view class="title">尺寸</view>
+        <view class="size" wx:if="{{secondProperties.title}}">
+             <view class="title">{{secondProperties.title}}</view>
              <view class="detail">
-                 <view class="item active">35</view>
-                 <view class="item">36</view>
-                 <view class="item">37</view>
+                 <view class="item {{item.selected ? 'active' : ''}}" wx:for="{{secondProperties.list}}" data-index="{{index}}" data-type="second" wx:key="{{index}}" bindtap='chgsku'>{{item.name}}</view>
              </view>
         </view>
         <view class="count">
