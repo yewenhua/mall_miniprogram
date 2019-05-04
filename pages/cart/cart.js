@@ -1,4 +1,5 @@
 var app = getApp();
+var hasload = false;
 var initdata = function (that) {
     var carts = that.data.carts;
     for (var i = 0; i < carts.length; i++) {
@@ -94,15 +95,26 @@ Page({
     },
 
     onLoad: function (options) {
+        hasload = false;
         this.setData({
           carts: app.globalData.orderGoods
         });
         this.sum();
         this.initEleWidth();
+
+        setTimeout(() => {
+          hasload = true;
+        }, 300);
     },
 
     onShow: function () {
-        this.sum();
+        if (hasload) {
+          this.setData({
+            carts: app.globalData.orderGoods
+          });
+          this.sum();
+          this.initEleWidth();
+        }
     },
 
     stop: function(){

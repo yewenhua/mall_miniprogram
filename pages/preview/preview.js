@@ -24,7 +24,8 @@ Page({
     },
     
     topay: function () {
-        wx.navigateTo({
+        app.globalData.orderGoods = [];
+        wx.redirectTo({
             url: '../pay/pay'
         })
     },
