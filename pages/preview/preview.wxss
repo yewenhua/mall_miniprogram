@@ -9,7 +9,18 @@ page{
 	padding: 30rpx ;
 	background: #fff;
 	margin-top: 20rpx;
-    position: relative;
+  position: relative;
+}
+.address:after{
+  content: '';
+  background-color: rgba(220,220,220,0.50);
+  box-shadow: inset 0 -0.01rem 0 0 rgba(206,206,206,0.50);
+  height: 2rpx;
+  transform: scaleY(0.5);
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }
 .address .user{
     display: flex;
@@ -62,6 +73,18 @@ page{
 	background: #fff;
 	margin-top: 20rpx;
 	color: #666;
+  position: relative;
+}
+.productDetails:after{
+  content: '';
+  background-color: rgba(220,220,220,0.50);
+  box-shadow: inset 0 -0.01rem 0 0 rgba(206,206,206,0.50);
+  height: 2rpx;
+  transform: scaleY(0.5);
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }
 .productPrice, .productQuantity{
     font-size: 32rpx;

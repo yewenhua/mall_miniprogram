@@ -11,14 +11,18 @@ Page({
       num: 0,
       firstProperties: { title: '', list: [] },
       secondProperties: { title: '', list: [] },
+      selectedProperties: '',
+      selectedOK: false,
+      operateType: 'buy',
       indicatorDots: true,
       autoplay: true,
       circular: true,
       interval: 3000,
       duration: 500,
-      popup: false,
+      isPopup: false,
       count: 1,
       pt: false,
+      popHeight: 610,
       timeup: '',
       leftTime: 2 * 24 * 60 * 60
   },
@@ -59,26 +63,128 @@ Page({
   
   },
 
-  preview: function () {
+  gocart(){
+    wx.switchTab({
+      url: '../cart/cart'
+    });
+  },
+
+  preview: function (e) {
+    this.setData({
+      operateType: e.target.dataset.type
+    });
+
+    if (this.data.data && this.data.data.is_sku == 1) {
+      this.popup();
+    }
+    else{
+      this.buy();
       wx.navigateTo({
-          url: '../preview/preview'
+        url: '../preview/preview'
       });
+    }
   },
 
-  cart: function (){
-      wx.switchTab({
-          url: '../cart/cart'
-      });
+  cart: function (e){
+    this.setData({
+      operateType: e.target.dataset.type
+    }); 
+
+    if (this.data.data && this.data.data.is_sku == 1){
+      this.popup();
+    }
+    else{
+      app.showToast('添加成功', 'success', 'icon');
+      this.addCart();
+    }
   },
 
-  popup: function (e) {
-      if (this.data.popup) {
+  subOrder() {
+    if (!this.data.selectedOK){
+      app.showToast('选择商品属性', '/images/cry_white.png', 'img');
+      return false;
+    }
+
+    if(this.data.num <= 0){
+      app.showToast('没有库存', '/images/cry_white.png', 'img');
+      return false;
+    }
+
+    if (this.data.operateType == 'cart') {
+      this.popup();
+      this.addCart();
+      
+      app.showToast('添加成功', 'success', 'icon');
+    }
+    else {
+      this.buy();
+
+      wx.navigateTo({
+        url: '../preview/preview'
+      });
+    }
+  },
+
+  buy(){
+    app.globalData.orderGoods = [{
+      good: {
+        id: this.data.data.id,
+        face_img: this.data.data.face_img,
+        sale_price: this.data.data.sale_price,
+        name: this.data.data.name
+      },
+      sku: {
+        firstProperties: this.data.firstProperties,
+        secondProperties: this.data.secondProperties
+      },
+      checked: false,
+      txtStyle: '',
+      value: this.data.data.id,
+      total: this.data.num,
+      selectedProperties: this.data.selectedProperties,
+      num: this.data.count
+    }];
+  },
+
+  addCart(){
+    if (!this.in_carts(app.globalData.orderGoods, this.data.data.id, this.data.selectedProperties)) {
+      app.globalData.orderGoods.push({
+        good: {
+          id: this.data.data.id,
+          face_img: this.data.data.face_img,
+          sale_price: this.data.data.sale_price,
+          name: this.data.data.name
+        },
+        total: this.data.num,
+        sku: {
+          firstProperties: this.data.firstProperties,
+          secondProperties: this.data.secondProperties
+        },
+        checked: false, 
+        txtStyle: '',
+        value: this.data.data.id,
+        selectedProperties: this.data.selectedProperties,
+        num: this.data.count
+      });
+    }
+    else {
+      for (let i = 0; i < app.globalData.orderGoods.length; i++) {
+        if (this.data.data.id == app.globalData.orderGoods[i].good.id) {
+          app.globalData.orderGoods[i].num = app.globalData.orderGoods[i].num + this.data.count;
+          break;
+        }
+      }
+    }
+  },
+
+  popup: function () {
+      if (this.data.isPopup) {
           this.setData({
-              popup: false
+            isPopup: false
           });
       } else {
           this.setData({
-              popup: true
+            isPopup: true
           })
       }
   },
@@ -90,9 +196,11 @@ Page({
               });
           };
       } else {
-          this.setData({
-              count: this.data.count + 1
-          });
+          if (this.data.count < this.data.num) {
+            this.setData({
+                count: this.data.count + 1
+            });
+          }
       };
   },
   single(){
@@ -146,9 +254,27 @@ Page({
     }
   },
 
+  in_carts(arr, val, selectedProperties) {
+    if (arr.length == 0) {
+      return false;
+    }
+    else {
+      let flag = false;
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].good.id == val && arr[i].selectedProperties == selectedProperties) {
+          flag = true;
+          break;
+        }
+      }
+
+      return flag;
+    }
+  },
+
   updateDisplay() {
     let firstAttrId = '';
     let secondAttrId = '';
+    let hasTwo = false;  //是否有第二属性
     for (let i=0; i < this.data.firstProperties.list.length; i++) {
       if (this.data.firstProperties.list[i].selected) {
         firstAttrId = this.data.firstProperties.list[i].id;
@@ -156,6 +282,7 @@ Page({
     }
 
     if (this.data.secondProperties.title) {
+      hasTwo = true; //有第二属性
       for (let i=0; i < this.data.secondProperties.list.length; i++) {
         if (this.data.secondProperties.list[i].selected) {
           secondAttrId = this.data.secondProperties.list[i].id;
@@ -163,12 +290,16 @@ Page({
       }
     }
 
+    let selectedProperties = '';
     let num = 0;
+    let selectedOK = false;
     if (firstAttrId && secondAttrId) {
       //选择了属性一和属性二
       for (let i=0; i < this.data.data.skus.length; i++) {
         if (this.data.data.skus[i].first_properties_id == firstAttrId && this.data.data.skus[i].second_properties_id == secondAttrId) {
           num = this.data.data.skus[i].num;
+          selectedProperties = this.data.data.skus[i].firstProperty.name + '，' + this.data.data.skus[i].secondProperty.name;
+          selectedOK = true;
         }
       }
     }
@@ -177,7 +308,17 @@ Page({
       for (let i=0; i < this.data.data.skus.length; i++) {
         if (this.data.data.skus[i].first_properties_id == firstAttrId) {
           num = num + this.data.data.skus[i].num;
+          selectedProperties = this.data.data.skus[i].firstProperty.name;
         }
+      }
+
+      if (hasTwo){
+        //有第二属性，但没选择第二属性
+        selectedOK = false;
+      }
+      else{
+        //没有第二属性
+        selectedOK = true;
       }
     }
     else if (!firstAttrId && secondAttrId) {
@@ -185,18 +326,24 @@ Page({
       for (let i=0; i < this.data.data.skus.length; i++) {
         if (this.data.data.skus[i].second_properties_id == secondAttrId) {
           num = num + this.data.data.skus[i].num;
+          selectedProperties = this.data.data.skus[i].secondProperty.name;
         }
       }
+      selectedOK = false;
     }
     else {
       //都没选
       for (let i=0; i < this.data.data.skus.length; i++) {
         num = num + this.data.data.skus[i].num;
+        selectedProperties = '';
       }
+      selectedOK = false;
     }
 
     this.setData({
-      num: num
+      num: num,
+      selectedProperties: selectedProperties,
+      selectedOK: selectedOK
     });
   },
 
@@ -263,6 +410,7 @@ Page({
         if (rtn.code == 0) {
           let mainpic = [];
           let detailpic = [];
+          rtn.data.face_img = app.globalData.base_url + rtn.data.face;
           for (let i = 0; i < rtn.data.images.length; i++) {
             if (rtn.data.images[i].type == 'main'){
               mainpic.push(
@@ -305,16 +453,33 @@ Page({
             }
           }
 
+          let height = 610;
+          if (rtn.data.is_sku == 1){
+            if (firstProperties.list.length <= 4) {
+              height = 610;
+            }
+            else {
+              height = height + Math.ceil((firstProperties.list - 4) / 4) * 90;
+            }
+
+            if (secondProperties.title){
+              if (secondProperties.list.length <= 4) {
+                height = height + 160;
+              }
+              else {
+                height = height + Math.ceil((secondProperties.list - 4) / 4) * 90;
+              }
+            }
+          }
+
           that.setData({
             data: rtn.data,
             num: rtn.data.remain_num,
             firstProperties: firstProperties,
             secondProperties: secondProperties,
+            popHeight: height,
             loading: false
           });
-
-          console.log(firstProperties);
-          console.log(secondProperties);
         }
         else {
           that.setData({

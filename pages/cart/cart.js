@@ -11,11 +11,7 @@ Page({
     data: {
         selectedAll: false,
         total: 0,
-        carts: [
-            { value: 0, total: '10', checked: true, imgUrl: '../../images/cha.jpg', id: 1, name: '武夷山大红袍 + 专享茶壶', count: 1, price: 99, cartID: 1, txtStyle: '' },
-            { value: 1, total: '10', imgUrl: '../../images/hua.jpg', id: 1, name: '武夷山大红袍 + 专享茶壶', count: 1, price: 99, cartID: 1, txtStyle: '' }
-        ],
-
+        carts: [],
         delBtnWidth: 180,//删除按钮宽度单位（rpx）  
         startX: 0
     },
@@ -79,16 +75,16 @@ Page({
         var index = e.target.dataset.index;
         var temp = this.data.carts;
         if (e.target.dataset.alphaBeta == 0) {
-            if (temp[index].count > 1) {
-                temp[index].count = temp[index].count - 1;
+            if (temp[index].num > 1) {
+                temp[index].num = temp[index].num - 1;
                 this.setData({
                     carts: temp
                 });
                 this.sum();
             };
         } else {
-            if (temp[index].count < temp[index].total) {
-                temp[index].count = temp[index].count + 1;
+          if (temp[index].num < temp[index].total) {
+              temp[index].num = temp[index].num + 1;
                 this.setData({
                     carts: temp
                 });
@@ -98,6 +94,9 @@ Page({
     },
 
     onLoad: function (options) {
+        this.setData({
+          carts: app.globalData.orderGoods
+        });
         this.sum();
         this.initEleWidth();
     },
@@ -113,7 +112,7 @@ Page({
         var total = 0;
         for (var i = 0; i < this.data.carts.length; i++){
             if (this.data.carts[i].checked){
-                total = total + this.data.carts[i].count * this.data.carts[i].price;
+                total = total + this.data.carts[i].num * this.data.carts[i].good.sale_price;
             }
         }
 
@@ -123,9 +122,21 @@ Page({
     },
 
     preview: function () {
-        wx.navigateTo({
-            url: '../preview/preview'
-        });
+      let orderGoods = [];
+      for (var i = 0; i < this.data.carts.length; i++) {
+        if (this.data.carts[i].checked) {
+          orderGoods.push(this.data.carts[i]);
+        }
+      }
+      if (orderGoods.length == 0){
+        app.showToast('请选择商品', '/images/cry_white.png', 'img');
+        return false;
+      }
+      
+      app.globalData.orderGoods = orderGoods;
+      wx.navigateTo({
+          url: '../preview/preview'
+      });
     },
 
     touchS: function (e) {

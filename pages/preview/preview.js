@@ -1,20 +1,28 @@
+var app = getApp();
+
 Page({
     data: {
-      address: null
+      address: null,
+      orderGoods: null,
+      money: 0,
+      num: 0
     },
     onLoad: function (options) {
-        // 页面初始化 options为页面跳转所带来的参数
+      // 页面初始化 options为页面跳转所带来的参数
+      let money = 0;
+      let num = 0;
+      for (let i=0; i<app.globalData.orderGoods.length; i++){
+        money = money + app.globalData.orderGoods[i].num * app.globalData.orderGoods[i].good.sale_price;
+        num = num + app.globalData.orderGoods[i].num;
+      }
+
+      this.setData({
+        orderGoods: app.globalData.orderGoods,
+        money: money,
+        num: num
+      });
     },
     
-    onShow: function () {
-        // 页面显示
-    },
-    
-    tosearch: function () {
-        wx.navigateTo({
-            url: '../searchProduct/searchProduct'
-        })
-    },
     topay: function () {
         wx.navigateTo({
             url: '../pay/pay'

@@ -34,8 +34,8 @@
             <view class='item'>
                 <text>店铺：</text>小王小卖部
             </view>
-            <view class="item select" bindtap="popup" data-type="addcart">
-                <text>颜色：</text>红色
+            <view wx:if="{{data && data.is_sku == 1}}" class="item select" bindtap="popup">
+                <text>{{firstProperties.title}}{{secondProperties.title ? '，' + secondProperties.title : ''}}：</text>{{selectedProperties}}
             </view>
         </view>
     </view>
@@ -53,21 +53,21 @@
     </view>
     
     <view class="footfixed tc">
-        <view class="fl_l w20 font_12 hui03 df">
-            <view class="df_1 l_h15 pt5">
-                <contact-button type="default-light" session-from="productId_{{itemData.id}}" class="ke">
-                  <contact-button class="pos"></contact-button>
-                  <image class="icon_kf" src="/images/kefu.png" style="margin-right:20px;"></image>
-                  <view class="dbtext" style="line;margin-top: 6rpx">客服</view>
-                </contact-button >
-            </view>
+        <view class="w15 font_12 ke">
+            <contact-button type="default-light" session-from="productId_{{itemData.id}}"></contact-button >
+            <image class="icon_kf" src="/images/kefu.png"></image>
+            <view class="dbtext">客服</view>
         </view>
-        <view class="fl_l w80" wx:if="{{!pt}}">
-            <view class="w50 fl_l bg_cheng white text-center" bindtap="popup" data-type="addcart">加入购物车</view>
-            <view bindtap="preview" class="bg_red white w50 fl_l text-center" data-status="1">立刻购买</view>
+        <view class="w15 cart" bindtap="gocart">
+            <image class="icon_kf" src="/images/cart.png"></image>
+            <view class="dbtext">购物车</view>
         </view>
-        <view class="fl_l w80" wx:if="{{pt}}">
-            <view class="w50 fl_l bg_cheng white text-center dbline" bindtap="single">
+        <view class="w70 bt" wx:if="{{!pt}}">
+            <view class="w50 bg_cheng white text-center" bindtap="cart" data-type="cart">加入购物车</view>
+            <view class="bg_red white w50 fl_l text-center" bindtap="preview" data-type="buy">立刻购买</view>
+        </view>
+        <view class="w70" wx:if="{{pt}}">
+            <view class="w50 bg_cheng white text-center dbline" bindtap="single">
                <view>¥ 129</view>
                <view>单买</view>
             </view>
@@ -78,15 +78,15 @@
         </view>
     </view>
 
-    <view class="open-device" style="bottom: {{popup ? '0px' : '-1000rpx'}};">
+    <view class="open-device" style="bottom: {{isPopup ? '0px' : '-1000rpx'}}; height: {{popHeight}}rpx;">
         <view class="info">
              <view class="img">
-                 <image src='../../images/cha.jpg'></image>
+                 <image src="{{data && data.face_img ? data.face_img : ''}}"></image>
              </view>
              <view class="desc">
-                 <view class="title">武夷山大红袍，茶中极品</view>
+                 <view class="title">{{data && data.name ? data.name : ''}}</view>
                  <view class="rest">库存：{{num}}</view>
-                 <view class="price">价格：<text>¥ 99</text> 元</view>
+                 <view class="price">价格：<text>¥ {{data && data.sale_price ? data.sale_price : ''}}</text> 元</view>
              </view>
         </view>
         <view class="size" wx:if="{{firstProperties.title}}">
@@ -109,9 +109,9 @@
                 <view class="addnum" data-alpha-beta="1" bindtap="changeNum">+</view>
             </view>
         </view>
-        <view class="operate" bindtap="subOrder" hover-class="sb-hover">
-            <view class="btn">确定</view>
+        <view class="operate" hover-class="sb-hover">
+            <view class="btn" bindtap="subOrder">确定</view>
         </view>
     </view>
-    <view class="mask" catchtap="popup" wx:if="{{popup}}"></view>
+    <view class="mask" catchtap="popup" wx:if="{{isPopup}}"></view>
 </scroll-view>

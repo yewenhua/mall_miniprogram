@@ -7,7 +7,7 @@ App({
     base_url: 'http://www.mall.com',
     code: wx.getStorageSync('code') ? wx.getStorageSync('code') : '',
     children_num: wx.getStorageSync('children_num') ? wx.getStorageSync('children_num') : 0,
-    orderGood: null
+    orderGoods: []
   },
   
   onLaunch: function() {

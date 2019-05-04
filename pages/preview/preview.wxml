@@ -23,27 +23,27 @@
 	<view class="productDetails">
 		<view class="orderListTitle">
 			<view class="userImg">
-                <image src="../../images/news_hot_light.png"></image>
-            </view>
+          <image src="../../images/news_hot_light.png"></image>
+      </view>
 			<text class="userName">2017100912347986</text>
 			<text class="orderStatus">2017-10-09 13:10</text>
 		</view>
-		<view class="orderListDetails">
+		<view class="orderListDetails" wx:for="{{orderGoods}}" wx:key="{{index}}">
 			<view class="productImg">
-				<image src="../../images/cha.jpg"></image>
+				<image src="{{item.good.face_img}}"></image>
 			</view>
 			<view class="productInfo">
-				<view class="productTitle">Canmake缤纷糖果保湿唇彩 唇蜜 01经典粉色</view>
-				<text class="productPrice">￥132.00</text>
-				<text class="productQuantity">x1</text>
+				<view class="productTitle">{{item.good.name}}</view>
+				<text class="productPrice">￥{{item.good.sale_price}}</text>
+				<text class="productQuantity">x{{item.num}}</text>
 			</view>
 		</view>
 		<view class="productCount">
-			<view>共计1件商品 合计：￥<text>132.00</text></view>
+			<view>共计{{num}}件商品 合计：￥<text>{{money}}</text></view>
 		</view>
 		<view class="productCount">
 			<text class="expenses">运费</text>
-            <text class="noExpenses">免运费</text>
+      <text class="noExpenses">免运费</text>
 		</view>
 	</view>	
 	<!-- 提交订单 -->
@@ -52,7 +52,7 @@
 			<button class="submitBtn">提交支付</button>
 		</view>
 		<view class="account">
-			<view class="count">总计： <text class="price">￥1.00</text></view>
+			<view class="count">总计： <text class="price">￥{{money}}</text></view>
 		</view>
 	</view>
 </view>
