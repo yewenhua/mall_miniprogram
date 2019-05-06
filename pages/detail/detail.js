@@ -126,45 +126,87 @@ Page({
   },
 
   buy(){
+    let first_properties_id = '';
+    let second_properties_id = '';
+    if (this.data.data.is_sku == 1) {
+      for (let j = 0; j < this.data.firstProperties.list.length; j++) {
+        if (this.data.firstProperties.list[j].selected) {
+          first_properties_id = this.data.firstProperties.list[j].id;
+          break;
+        }
+      }
+
+      if (this.data.secondProperties.title) {
+        for (let j = 0; j < this.data.secondProperties.list.length; j++) {
+          if (this.data.secondProperties.list[j].selected) {
+            second_properties_id = this.data.secondProperties.list[j].id;
+            break;
+          }
+        }
+      }
+    }
+    
     app.globalData.orderGoods = [{
       good: {
         id: this.data.data.id,
         face_img: this.data.data.face_img,
+        face: this.data.data.face,
         sale_price: this.data.data.sale_price,
         name: this.data.data.name
       },
-      sku: {
-        firstProperties: this.data.firstProperties,
-        secondProperties: this.data.secondProperties
+      selectedProperties: {
+        attr_id: first_properties_id + ':' + second_properties_id,
+        value: this.data.selectedProperties
       },
       checked: false,
       txtStyle: '',
       value: this.data.data.id,
       total: this.data.num,
-      selectedProperties: this.data.selectedProperties,
-      num: this.data.count
+      num: this.data.count,
+      is_sku: this.data.data.is_sku
     }];
   },
 
   addCart(){
     if (!this.in_carts(app.globalData.orderGoods, this.data.data.id, this.data.selectedProperties)) {
+      let first_properties_id = '';
+      let second_properties_id = '';
+      if (this.data.data.is_sku == 1){
+        for (let j = 0; j < this.data.firstProperties.list.length; j++) {
+          if (this.data.firstProperties.list[j].selected) {
+            first_properties_id = this.data.firstProperties.list[j].id;
+            break;
+          }
+        }
+
+        if (this.data.secondProperties.title) {
+          for (let j = 0; j < this.data.secondProperties.list.length; j++) {
+            if (this.data.secondProperties.list[j].selected) {
+              second_properties_id = this.data.secondProperties.list[j].id;
+              break;
+            }
+          }
+        }
+      }
+
       app.globalData.orderGoods.push({
         good: {
           id: this.data.data.id,
           face_img: this.data.data.face_img,
+          face: this.data.data.face,
           sale_price: this.data.data.sale_price,
           name: this.data.data.name
         },
         total: this.data.num,
-        sku: {
-          firstProperties: this.data.firstProperties,
-          secondProperties: this.data.secondProperties
+        selectedProperties: {
+          attr_id: first_properties_id + ':' + second_properties_id,
+          value: this.data.selectedProperties
         },
         checked: false, 
         txtStyle: '',
         value: this.data.data.id,
-        selectedProperties: this.data.selectedProperties,
-        num: this.data.count
+        num: this.data.count,
+        is_sku: this.data.data.is_sku
       });
     }
     else {

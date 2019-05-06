@@ -113,7 +113,6 @@ Page({
             carts: app.globalData.orderGoods
           });
           this.sum();
-          this.initEleWidth();
         }
     },
 
@@ -129,7 +128,7 @@ Page({
         }
 
         this.setData({
-            total: total
+          total: total.toFixed(2)
         })
     },
 

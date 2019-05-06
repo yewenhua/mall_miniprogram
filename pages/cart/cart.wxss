@@ -28,6 +28,7 @@ page, .page{
     float: left;
     line-height: 45rpx;
     width: 100%;
+    position: relative;
 }
 .sp_tit{
     width: 100%;
@@ -49,7 +50,7 @@ page, .page{
 }
 .rest{
     position: absolute;
-    left: 200rpx;
+    right: 0rpx;
     top:0rpx;
     color: #999;
     font-size: 24rpx;
@@ -136,8 +137,9 @@ icon {
 }
 .weui-cells {
     position:relative;
-    background-color:#FFFFFF;
+    background-color:#f8f8f8;
     font-size:30px;
+    height: calc( 100% - 90rpx );
 }
 .weui-cells::after {
     content:"";
@@ -279,4 +281,16 @@ icon {
 } 
 .select-all-label{
     padding: 20rpx 30rpx;
+}
+.select-pro{
+  position: absolute;
+  right: 0rpx;
+  bottom: 6rpx;
+  width: 200rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 24rpx;
+  color: #999;
+  text-align: right;
 }
