@@ -8,32 +8,12 @@
                 <view class='title'><open-data type="userNickName"></open-data></view>
             </view>
             <view class='o-progress'>
-                <view class='view-item'>
+                <view class='view-item' wx:for="{{detail.orderScheduleViews}}" wx:key="{{index}}">
                     <view class='p-item'>
-                        <image src="{{'/images/CREATED_ACTIVE.png'}}"></image>
-                        <view class="p-text active">待付款</view>
+                        <image src="{{'/images/' + item.status + (item.lighted ? '_ACTIVE' : '') + '.png'}}"></image>
+                        <view class="p-text {{item.lighted ? 'active' : ''}}">{{item.name}}</view>
                     </view>
-                    <view class='p-line'></view>
-                </view>
-                <view class='view-item'>
-                    <view class='p-item'>
-                        <image src="{{'/images/ACCEPTED_ACTIVE.png'}}"></image>
-                        <view class="p-text active">待发货</view>
-                    </view>
-                    <view class='p-line'></view>
-                </view>
-                <view class='view-item'>
-                    <view class='p-item'>
-                        <image src="{{'/images/FIXED_ACTIVE.png'}}"></image>
-                        <view class="p-text active">待收货</view>
-                    </view>
-                    <view class='p-line'></view>
-                </view>
-                <view class='view-item'>
-                    <view class='p-item'>
-                        <image src="{{'/images/FINISHED_ACTIVE.png'}}"></image>
-                        <view class="p-text active">已完成</view>
-                    </view>
+                    <view class='p-line' wx:if="{{index < detail.orderScheduleViews.length-1}}"></view>
                 </view>
                 
                 <view class='sub-title'>订单信息</view>
