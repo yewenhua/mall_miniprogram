@@ -3,10 +3,9 @@
         <view class='inner'>
             <view class='o-title'>
                 <view class='img'>
-                <image bindtap='preview' data-cate="main" src="/images/cha.jpg"></image>
+                <open-data type="userAvatarUrl" class="image"></open-data>
                 </view>
-                <view class='title'>武夷山大红袍</view>
-                <view class='desc'>订单已完成，售后电话：<text bindtap='call'>4001030377</text></view>
+                <view class='title'><open-data type="userNickName"></open-data></view>
             </view>
             <view class='o-progress'>
                 <view class='view-item'>
@@ -41,24 +40,24 @@
             </view>
 
             <view class='o-item mt-color'>
-                <view class='left'>颜色</view>
-                <view class='right'>红色</view>
+                <view class='left'>收货人</view>
+                <view class='right'>{{detail ? detail.address.userName : ''}}</view>
             </view>
             <view class='o-item'>
-                <view class='left'>序列号</view>
-                <view class='right series_no'>123456</view>
+                <view class='left'>订单号</view>
+                <view class='right series_no'>{{detail ? detail.orderid : ''}}</view>
             </view>
             <view class='o-item'>
-                <view class='left'>预约手机</view>
-                <view class='right'>17091952061</view>
+                <view class='left'>联系电话</view>
+                <view class='right'>{{detail ? detail.address.telNumber : ''}}</view>
             </view>
             <view class='o-item'>
-                <view class='left'>预约时间</view>
-                <view class='right'>2019-03-25 10:12:23</view>
+                <view class='left'>下单时间</view>
+                <view class='right'>{{detail ? detail.time : ''}}</view>
             </view>
             <view class='o-item address'>
                 <view class='left'>收货地址</view>
-                <view class='right'>浙江省温州市瓯海区振革路38号</view>
+                <view class='right'>{{detail ? detail.address.provinceName + detail.address.cityName + detail.address.countyName + detail.address.detailInfo : ''}}</view>
             </view>
 
 

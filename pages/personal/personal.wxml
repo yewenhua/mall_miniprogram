@@ -5,24 +5,24 @@
     </view>
 
     <view class="weui-cells weui-cells_after-title">
-        <navigator open-type="switchTab" url="../order/order" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <navigator url="../orderlist/orderlist" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
             <view class="weui-cell__bd">全部订单</view>
             <view class="weui-cell__ft weui-cell__ft_in-access">看看详情</view>
         </navigator>
         <view class="weui-cell weui-cell_access orders" hover-class="weui-cell_active">
-            <navigator open-type="switchTab" url="../orderlist/orderlist" class="order-item">
+            <navigator url="../orderlist/orderlist" class="order-item">
                 <image src="../../images/card.png"></image>
                 <view class='text'>待付款</view>
             </navigator>
-            <navigator open-type="switchTab" url="../orderlist/orderlist" class="order-item">
+            <navigator url="../orderlist/orderlist" class="order-item">
                 <image src="../../images/car.png"></image>
                 <view class='text'>待收货</view>
             </navigator>
-            <navigator open-type="switchTab" url="../orderlist/orderlist" class="order-item">
+            <navigator url="../orderlist/orderlist" class="order-item">
                 <image src="../../images/favorate.png"></image>
                 <view class='text'>待评价</view>
             </navigator>
-            <navigator open-type="switchTab" url="../orderlist/orderlist" class="order-item">
+            <navigator url="../orderlist/orderlist" class="order-item">
                 <image src="../../images/refused.png"></image>
                 <view class='text'>退款</view>
             </navigator>

@@ -1,6 +1,7 @@
 // pages/orderdetail/orderdetail.js
 const app = getApp();
 var hasload = false;
+var util = require("../../utils/util.js");
 
 Page({
 
@@ -8,7 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    id: 5,
+    id: '',
     detail: '',
     stars: [0, 1, 2, 3, 4],
     imgSrc: '/images/cha.jpg',
@@ -18,7 +19,15 @@ Page({
     showRefund: false,
     animationData: {},
     showModalStatus: false,
-    content: ''
+    content: '',
+    orderStatus: {
+        nopay: 0,
+        payed: 1,
+        sended: 2,
+        completed: 3,
+        canceled: 98,
+        refund: 99
+    }
   },
 
   /**
@@ -30,18 +39,50 @@ Page({
       id: options && options.id ? options.id : ''
     });
 
-    //this.detail(() => {
-      //setTimeout(() => {
-        //hasload = true;
-      //}, 300);
-    //});
+    this.detail(() => {
+        hasload = true;
+    });
   },
 
   onShow: function () {
     if (hasload) {
-      //this.detail(() => { });
+      this.detail(() => { });
     }
   },
+
+    detail(cb) {
+        var that = this;
+        var url = app.globalData.api_url + '/mall/orderdetail';
+
+        var data = {
+            id: that.data.id
+        };
+        var action = { header: 'application/json', method: 'get', url: url };
+        if (!that.data.loading) {
+            app.showLoading('加载中…');
+            that.setData({
+                loading: true
+            });
+
+            app.api(action, data, function (rtn) {
+                app.hideLoading();
+                cb();
+                if (rtn.code == 0) {
+                    rtn.data.time = util.formatTime(new Date(rtn.data.createdAt)).substring(0, 16);
+                    that.setData({
+                        detail: rtn.data,
+                        loading: false
+                    });
+                }
+                else {
+                    that.setData({
+                        loading: false,
+                    });
+                    app.showToast(rtn.msg, '/images/cry_white.png', 'img');
+                }
+            });
+        }
+    },
 
   refund() {
     wx.navigateTo({

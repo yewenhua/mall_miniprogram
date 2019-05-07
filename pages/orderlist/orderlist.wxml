@@ -12,34 +12,46 @@
       <view class="weui-tab__panel">
         <swiper current="{{activeIndex}}" bindchange="currentChanged">
           <swiper-item wx:for="{{[0, 1, 2, 3]}}" wx:key="{{index}}">
-            <scroll-view class="weui-tab__content" scroll-y="true">
+            <scroll-view class="weui-tab__content" scroll-y="true" bindscrolltolower="lower">
                 <!-- 商品订单详情 -->
-                <view class="productDetails" wx:for="{{[0, 1, 2, 3]}}" wx:for-index="idx" wx:key="{{idx}}" bindtap='detail'>
+                <navigator class="productDetails" wx:for="{{datalist}}" wx:for-index="idx" wx:key="{{idx}}" url="../orderdetail/orderdetail?id={{item.id}}">
                     <view class="orderListTitle">
                         <view class="userImg">
                             <image src="../../images/news_hot_light.png"></image>
                         </view>
-                        <text class="userName">2017100912347986</text>
-                        <text class="orderStatus">2017-10-09 13:10</text>
+                        <text class="userName">{{item.orderid}}</text>
+                        <text class="orderStatus">{{item.time}}</text>
                     </view>
-                    <view class="orderListDetails">
+                    <view class="orderListDetails" wx:for="{{item.orderGoods}}" wx:for-item="good" wx:for-index="index" wx:key="{{index}}">
                         <view class="productImg">
-                            <image src="../../images/cha.jpg"></image>
+                            <image src="{{good.face}}"></image>
                         </view>
                         <view class="productInfo">
-                            <view class="productTitle">Canmake缤纷糖果保湿唇彩 唇蜜 01经典粉色</view>
-                            <text class="productPrice">￥132.00</text>
-                            <text class="productQuantity">x1</text>
+                            <view class="productTitle">{{good.goods_name}}</view>
+                            <text class="productPrice">￥{{good.goods_price}}</text>
+                            <text class="productQuantity">x{{good.num}}</text>
                         </view>
                     </view>
                     <view class="productCount">
-                        <view>共计1件商品 合计：￥<text>132.00</text></view>
+                        <view>共计{{item.total}}件商品 合计：￥<text>{{item.money}}</text></view>
                     </view>
                     <view class="productCount">
                         <text class="expenses">运费</text>
                         <text class="noExpenses">免运费</text>
                     </view>
-                </view>	
+                </navigator>	
+                <view class='nodata' wx:if="{{page == totalPage && !loading && datalist.length > 0}}">我是有底线的</view>
+                <view class='nodata-img' wx:if="{{!loading && datalist.length == 0}}">
+                    <image mode="widthFix" src='/images/nodata.png'></image>
+                    <view class='txt'>订单空空如也</view>
+                </view>
+                <view class="load-more" wx:if="{{page > 1 && loading}}">
+                    <view class="la-fire la-dark" style="margin:0 auto;">
+                        <view class='load-item'></view>
+                        <view class='load-item'></view>
+                        <view class='load-item'></view>
+                    </view>
+                </view>
             </scroll-view>
           </swiper-item>
         </swiper>

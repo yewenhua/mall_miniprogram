@@ -24,6 +24,8 @@ Page({
         num: num
       });
 
+      this.getAddress();
+
       setTimeout(() => {
         hasload = true;
       }, 300);
@@ -43,10 +45,16 @@ Page({
           money: money.toFixed(2),
           num: num
         });
+        this.getAddress();
       }
     },
     
     topay: function () { 
+        if (!this.data.address){
+          app.showToast('请选择地址', '/images/cry_white.png', 'img');
+          return false;
+        }
+
         let goods_params = [];
         for (let i = 0; i < app.globalData.orderGoods.length; i++){
           goods_params.push({
@@ -63,13 +71,12 @@ Page({
           money: this.data.money,
         }
 
-        app.globalData.orderGoods = [];
         this.submit(order_params);
     },
 
     submit(data) {
       var that = this;
-      var url = app.globalData.api_url + '/mall/order';
+      var url = app.globalData.api_url + '/mall/ordercreate';
       var action = { header: 'application/json', method: 'post', url: url };
       if (!that.data.loading) {
         app.showLoading('加载中…');
@@ -82,9 +89,16 @@ Page({
 
           if (rtn.code == 0) {
             app.showToast('操作成功', 'success', 'icon');
+            app.globalData.orderGoods = [];
             that.setData({
               loading: false
             });
+
+            setTimeout(()=>{
+              wx.switchTab({
+                url: '../cart/cart'
+              });
+            }, 2000);
           }
           else {
             that.setData({
@@ -95,19 +109,41 @@ Page({
         });
       }
     },
+
+    getAddress() {
+        var that = this;
+        var url = app.globalData.api_url + '/mall/address';
+
+        var data = {};
+        var action = { header: 'application/json', method: 'get', url: url };
+        if (!that.data.loading) {
+            app.showLoading('加载中…');
+            that.setData({
+                loading: true
+            });
+
+            app.api(action, data, function (rtn) {
+                app.hideLoading();
+                if (rtn.code == 0) {
+                    that.setData({
+                        address: rtn.data,
+                        loading: false
+                    });
+                }
+                else {
+                    that.setData({
+                        loading: false,
+                    });
+                    app.showToast(rtn.msg, '/images/cry_white.png', 'img');
+                }
+            });
+        }
+    },
     
     select_address(){
       let that = this;
       wx.chooseAddress({
         success(res) {
-          console.log(res.userName)
-          console.log(res.postalCode)
-          console.log(res.provinceName)
-          console.log(res.cityName)
-          console.log(res.countyName)
-          console.log(res.detailInfo)
-          console.log(res.nationalCode)
-          console.log(res.telNumber)
           that.setData({
             address: res
           });

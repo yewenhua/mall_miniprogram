@@ -60,7 +60,7 @@ page{
 }
 .o-title{
     position: relative;
-    height: 172rpx;
+    height: 140rpx;
 }
 .o-title .img{
     display: flex;
@@ -71,17 +71,21 @@ page{
     left: 50%;
     top:-68rpx;
     transform: translateX(-50%);
+    overflow:hidden;
 }
-.o-title .img image{
+.o-title .img .image{
     width: 136rpx;
     height: 136rpx;
     border-radius: 50%;
+    border:4rpx solid #fff;
+    box-shadow:6rpx 6rpx 20rpx rgba(0,0,0,0.2);
+    overflow:hidden;
 }
 .o-title .title{
     width: 100%;
     position: absolute;
     left: 0;
-    bottom: 34rpx;
+    bottom: 0rpx;
     text-align: center;
     color: #444444;
     font-size: 36rpx;

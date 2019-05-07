@@ -97,6 +97,7 @@ Page({
     onLoad: function (options) {
         hasload = false;
         this.setData({
+          selectedAll: false,
           carts: app.globalData.orderGoods
         });
         this.sum();
@@ -109,7 +110,12 @@ Page({
 
     onShow: function () {
         if (hasload) {
+          for (let i = 0; i < app.globalData.orderGoods.length; i++){
+              app.globalData.orderGoods[i].checked = false;
+          }
+          
           this.setData({
+            selectedAll: false,
             carts: app.globalData.orderGoods
           });
           this.sum();
