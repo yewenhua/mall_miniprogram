@@ -25,7 +25,8 @@ Page({
         payed: 1,
         sended: 2,
         completed: 3,
-        canceled: 98,
+        canceled: 97,
+        refunding: 98,
         refund: 99
     }
   },

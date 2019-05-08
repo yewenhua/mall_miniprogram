@@ -8,12 +8,12 @@
                 <view class='title'><open-data type="userNickName"></open-data></view>
             </view>
             <view class='o-progress'>
-                <view class='view-item' wx:for="{{detail.orderScheduleViews}}" wx:key="{{index}}">
+                <view class='view-item' wx:for="{{detail.process}}" wx:key="{{index}}">
                     <view class='p-item'>
                         <image src="{{'/images/' + item.status + (item.lighted ? '_ACTIVE' : '') + '.png'}}"></image>
                         <view class="p-text {{item.lighted ? 'active' : ''}}">{{item.name}}</view>
                     </view>
-                    <view class='p-line' wx:if="{{index < detail.orderScheduleViews.length-1}}"></view>
+                    <view class='p-line' wx:if="{{index < detail.process.length-1}}"></view>
                 </view>
                 
                 <view class='sub-title'>订单信息</view>
@@ -42,12 +42,12 @@
 
 
             <view class='o-btn'>
-                <button class="o-submit" bindtap="cancel" hover-class="sb-hover">取消订单</button>
+                <button class="o-submit" bindtap="cancel" wx:if="{{detail && detail.status == orderStatus.nopay}}" hover-class="sb-hover">取消订单</button>
             </view>
 
-            <view class='o-btn' wx:if="1==2">
+            <view class='o-btn' wx:if="{{detail && (detail.status == orderStatus.payed || detail.status == orderStatus.sended)}}">
                 <button class="o-submit" bindtap="comment" data-type="addcart" hover-class="sb-hover">订单评价</button>
-                <view class="refund" bindtap="refund" wx:if="{{detail.canBeRejected}}">我要退货</view>
+                <view class="refund" bindtap="refund">我要退货</view>
             </view>
 
             <view class="comment-detail">
@@ -89,13 +89,13 @@
                     <view class='left'>评价详情</view>
                     <view class='right'>很好</view>
                 </view>
-                <view class='o-btn' wx:if="1==2">
+                <view class='o-btn' wx:if="{{detail && (detail.status == orderStatus.payed || detail.status == orderStatus.sended)}}">
                     <button class="o-submit rt" bindtap="refund" hover-class="sb-hover">我要退货</button>
                 </view>
             </view>
 
 
-            <view wx:if="{{detail && (detail.orderStatus == 'REJECTING' || (detail.orderStatus == 'CLOSED' && detail.rejectReason))}}" class="comment-detail">
+            <view wx:if="{{detail && (detail.status == orderStatus.refunding || (detail.status == orderStatus.refund))}}" class="comment-detail">
                 <view class='c-title'>退货进度</view>
                 <view class='o-item comment cdetail'>
                     <view class='left'>退货状态</view>
