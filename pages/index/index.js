@@ -18,10 +18,20 @@ Page({
     },
 
     onLoad: function (options) {
-        this.lists();
+        this.lists(()=>{});
     },
 
-    lists() {
+    onPullDownRefresh() {
+        this.setData({
+            datalist: []
+        });
+
+        this.lists(() => {
+            wx.stopPullDownRefresh();
+        });
+    },
+
+    lists(cb) {
       var that = this;
       var url = app.globalData.api_url + '/mall/category';
 
@@ -54,6 +64,7 @@ Page({
             });
             app.showToast(rtn.msg, '/images/cry_white.png', 'img');
           }
+          cb();
         });
       }
     },

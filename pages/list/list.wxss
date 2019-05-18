@@ -1,3 +1,4 @@
+
 .search-bg{
     position: absolute;
     left: 0px;
@@ -95,11 +96,21 @@
       height: 100%;
       width: 100%;
       overflow: hidden;
+      position: relative;
+      padding-top: 90rpx;
+      box-sizing: border-box;
   }
+  .onPullDownRefresh{
+    position: absolute;
+    width: 100%;
+    height: 30%;
+    left: 0;
+    top: 0;
+    z-index:999;
+}
 
 .list-bg{
-    margin-top: 96rpx;
-    height:calc(100% - 96rpx);
+    height:100%;
     width: 100%;
 }
 .list{

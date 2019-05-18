@@ -9,7 +9,8 @@ Page({
       list: [1,2,3,4,5,6,7,8,9,10],
       inputShowed: false,
       inputVal: "",
-      loading: false
+      loading: false,
+      scrollTop: 0
   },
 
   /**
@@ -25,6 +26,29 @@ Page({
   onShow: function () {
   
   },
+
+    onPullDownRefresh() {
+        this.setData({
+            list: []
+        });
+
+        this.lists(() => {
+            wx.stopPullDownRefresh();
+        });
+    },
+
+    scroll(event) {
+        this.setData({
+            scrollTop: event.detail.scrollTop
+        });
+    },
+
+    lists(cb){
+        this.setData({
+            list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        });
+        cb();
+    },
 
   /**
    * 页面上拉触底事件的处理函数

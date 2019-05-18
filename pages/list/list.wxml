@@ -1,7 +1,8 @@
 <import src="../templates/search" />
 <view class='page'>
+    <view class='onPullDownRefresh' wx:if="{{scrollTop == 0}}"></view>
     <template is="search" data="{{inputShowed, inputVal}}"></template>
-    <scroll-view class='list-bg' scroll-y="true" bindscrolltolower="lower">
+    <scroll-view class='list-bg' scroll-y="true" bindscrolltolower="lower" bindscroll="scroll">
         <view class='list'>
             <view class='item' wx:for="{{list}}" wx:key="{{index}}" bindtap='detail'>
                 <view class='img'>
