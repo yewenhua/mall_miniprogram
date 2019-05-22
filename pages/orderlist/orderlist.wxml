@@ -14,7 +14,7 @@
           <swiper-item wx:for="{{[0, 1, 2, 3]}}" wx:key="{{index}}">
             <scroll-view class="weui-tab__content" scroll-y="true" bindscrolltolower="lower">
                 <!-- 商品订单详情 -->
-                <navigator class="productDetails" wx:for="{{datalist}}" wx:for-index="idx" wx:key="{{idx}}" url="../orderdetail/orderdetail?id={{item.id}}">
+                <view class="productDetails" wx:for="{{datalist}}" wx:for-index="idx" wx:key="{{idx}}">
                     <view class="orderListTitle">
                         <view class="userImg">
                             <image src="../../images/news_hot_light.png"></image>
@@ -22,7 +22,7 @@
                         <text class="userName">{{item.orderid}}</text>
                         <text class="orderStatus">{{item.time}}</text>
                     </view>
-                    <view class="orderListDetails" wx:for="{{item.orderGoods}}" wx:for-item="good" wx:for-index="index" wx:key="{{index}}">
+                    <navigator class="orderListDetails" wx:for="{{item.orderGoods}}" wx:for-item="good" wx:for-index="index" wx:key="{{index}}" url="../orderdetail/orderdetail?order_id={{item.id}}&order_goods_id={{good.id}}">
                         <view class="productImg">
                             <image src="{{good.face}}"></image>
                         </view>
@@ -31,7 +31,7 @@
                             <text class="productPrice">￥{{good.goods_price}}</text>
                             <text class="productQuantity">x{{good.num}}</text>
                         </view>
-                    </view>
+                    </navigator>
                     <view class="productCount">
                         <view>共计{{item.total}}件商品 合计：￥<text>{{item.money}}</text></view>
                     </view>
@@ -39,7 +39,7 @@
                         <text class="expenses">运费</text>
                         <text class="noExpenses">免运费</text>
                     </view>
-                </navigator>	
+                </view>	
                 <view class='nodata' wx:if="{{page == totalPage && !loading && datalist.length > 0}}">我是有底线的</view>
                 <view class='nodata-img' wx:if="{{!loading && datalist.length == 0}}">
                     <image mode="widthFix" src='/images/nodata.png'></image>

@@ -72,8 +72,11 @@ page{
     top:-68rpx;
     transform: translateX(-50%);
     overflow:hidden;
+    height: 140rpx;
+    width: 140rpx;
+    background: #fff;
 }
-.o-title .img .image{
+.o-title .img image{
     width: 136rpx;
     height: 136rpx;
     border-radius: 50%;

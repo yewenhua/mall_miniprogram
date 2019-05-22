@@ -9,7 +9,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    id: '',
+    order: null,
+    order_id: '',
+    order_goods_id: '',
+    address: null,
     detail: '',
     stars: [0, 1, 2, 3, 4],
     imgSrc: '/images/cha.jpg',
@@ -37,7 +40,8 @@ Page({
   onLoad: function (options) {
     hasload = false;
     this.setData({
-      id: options && options.id ? options.id : ''
+        order_id: options && options.order_id ? options.order_id : '',
+        order_goods_id: options && options.order_goods_id ? options.order_goods_id : ''
     });
 
     this.detail(() => {
@@ -56,7 +60,8 @@ Page({
         var url = app.globalData.api_url + '/mall/orderdetail';
 
         var data = {
-            id: that.data.id
+            order_id: that.data.order_id,
+            order_goods_id: that.data.order_goods_id,
         };
         var action = { header: 'application/json', method: 'get', url: url };
         if (!that.data.loading) {
@@ -69,9 +74,12 @@ Page({
                 app.hideLoading();
                 cb();
                 if (rtn.code == 0) {
-                    rtn.data.time = util.formatTime(new Date(rtn.data.createdAt)).substring(0, 16);
+                    rtn.data.orderGood.time = util.formatTime(new Date(rtn.data.orderGood.createdAt)).substring(0, 16);
+                    rtn.data.orderGood.img = app.globalData.base_url + rtn.data.orderGood.goods_img;
                     that.setData({
-                        detail: rtn.data,
+                        order: rtn.data.order,
+                        detail: rtn.data.orderGood,
+                        address: rtn.data.address,
                         loading: false
                     });
                 }
@@ -87,13 +95,13 @@ Page({
 
   refund() {
     wx.navigateTo({
-      url: '../refund/refund?id=' + this.data.id
+        url: '../refund/refund?id=' + this.data.order_id
     })
   },
 
   comment() {
     wx.navigateTo({
-      url: '../star/star?id=' + this.data.id
+        url: '../star/star?id=' + this.data.order_id
     });
   },
 
@@ -101,8 +109,8 @@ Page({
     var category = e.currentTarget.dataset.cate;
     if (category == 'main') {
       wx.previewImage({
-        current: this.data.imgSrc,
-        urls: [this.data.imgSrc]
+          current: this.data.detail.img,
+          urls: [this.data.detail.img]
       });
     }
     else if (category == 'refund') {
@@ -137,9 +145,9 @@ Page({
       });
       app.showLoading('提交中…');
 
-      let url = app.globalData.api_url + '/app/order/cancel/' + that.data.id;
+        let url = app.globalData.api_url + '/app/order/cancel/' + that.data.order_id;
       let data = {
-        id: that.data.id,
+          id: that.data.order_id,
         content: that.data.content
       };
 
